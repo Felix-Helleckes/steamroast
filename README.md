@@ -5,12 +5,12 @@
 # 🔥 SteamRoast.ai
 "Face your Pile of Shame. This is the way."
 
-SteamRoast.ai is a high-performance web application designed to analyze your Steam library and give you a brutal, AI-powered roast of your gaming habits. Built by an ex-Blizzard QA Lead to prove that efficiency and entertainment can go hand in hand.
+SteamRoast.ai is a high-performance web application designed to analyze your Steam library and give you a brutal, AI-powered roast of your gaming habits. Built by an ex-Blizzard QA to prove that efficiency and entertainment can go hand in hand.
 
 ---
 
 ## 🚀 The Mission: 100k Subscribers
-This project is part of my journey to 100,000 subscribers on YouTube and TikTok. I’m building transparent, efficient, and fun tools for the gaming community.
+This project is part of my journey to 100,000 subscribers on YouTube. I’m building transparent, efficient, and fun tools for the gaming community.
 
 **Goal:** Reach 100k Subs.
 
