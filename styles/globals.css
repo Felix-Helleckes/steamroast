@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --beskar-silver: #bfc7ce;
+  --mando-blue: #1e90ff;
+}
+
+.text-beskar-silver {
+  color: var(--beskar-silver);
+}
+
+.bg-mando-blue {
+  background-color: var(--mando-blue);
+}
