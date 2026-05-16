@@ -18,7 +18,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    fetch("/api/auth/me", { cache: "no-store", credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         setSteamId(data.steamId ?? null);

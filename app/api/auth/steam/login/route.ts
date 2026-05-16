@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const host = req.headers.get("host") ?? "localhost:3000";
-  const protocol = host.startsWith("localhost") ? "http" : "https";
-  const realm = process.env.NEXTAUTH_URL ?? `${protocol}://${host}`;
+  // Prefer request origin to avoid broken redirects when NEXTAUTH_URL is misconfigured.
+  const realm = req.nextUrl.origin;
   const returnTo = `${realm}/api/auth/steam/callback`;
 
   const params = new URLSearchParams({
