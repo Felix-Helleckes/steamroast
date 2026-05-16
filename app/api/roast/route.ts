@@ -1,17 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
-import { OpenAI } from "openai";
+import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req: NextRequest) {
   const { games, totalHours } = await req.json();
-  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-  const prompt = `Context: User's Steam Library. Games: [${games.join(", ")}], Total Hours: [${totalHours}].\nIdentity: You are a savage Senior QA Lead.\nTask: Roast the user's life choices based on these games.\nTone: Brutal, witty, sarcastic, technical.\nLength: Max 280 characters (tweet-sized).`;
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "Missing Gemini API key" }, { status: 500 });
+  }
 
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o",
-    messages: [{ role: "user", content: prompt }],
-    max_tokens: 280,
+  const ai = new GoogleGenAI({ apiKey });
+
+  const prompt = `Context: User's Steam Library. Games: [${games.join(", ")}], Total Hours: [${totalHours}].
+Identity: You are a savage Senior QA Lead.
+Task: Roast the user's life choices based on these games.
+Tone: Brutal, witty, sarcastic, technical.
+Length: Max 280 characters (tweet-sized). Output only the roast, no quotes, no labels.`;
+
+  const response = await ai.models.generateContent({
+    model: "gemini-2.0-flash-latest",
+    contents: prompt,
   });
 
-  return NextResponse.json({ roast: completion.choices[0].message.content });
+  const roast = response.text?.trim() ?? "Your gaming history is so bad even AI refused to roast it.";
+  return NextResponse.json({ roast });
 }
