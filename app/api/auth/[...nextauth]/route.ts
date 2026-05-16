@@ -1,32 +1,10 @@
-import NextAuth from "next-auth";
-import SteamProvider from "next-auth-steam";
-import { NextAuthOptions } from "next-auth";
+// This route is no longer used. Steam auth is handled by /api/auth/steam/login and /api/auth/steam/callback
+import { NextResponse } from "next/server";
 
-export const authOptions: NextAuthOptions = {
-  providers: [
-    SteamProvider({
-      clientSecret: process.env.STEAM_API_KEY!,
-      returnURL: process.env.NEXTAUTH_URL + "/api/auth/callback/steam",
-    }),
-  ],
-  callbacks: {
-    async jwt({ token, account }) {
-      if (account?.provider === "steam" && account?.providerAccountId) {
-        token.steamId = account.providerAccountId;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token.steamId) {
-        session.user.steamId = token.steamId;
-      }
-      return session;
-    },
-  },
-  session: {
-    strategy: "jwt",
-  },
-};
+export async function GET() {
+  return NextResponse.json({ message: "Use /api/auth/steam/login to sign in with Steam." });
+}
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export async function POST() {
+  return NextResponse.json({ message: "Use /api/auth/steam/login to sign in with Steam." });
+}

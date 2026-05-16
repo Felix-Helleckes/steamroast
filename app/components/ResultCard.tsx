@@ -1,21 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useAuth } from "./AuthContext";
 
 export function ResultCard() {
-  const { data: session } = useSession();
+  const { steamId } = useAuth();
   const [roast, setRoast] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchRoast() {
-      if (!session?.user?.steamId) return;
+      if (!steamId) return;
       setLoading(true);
+      setError("");
       // Fetch Steam games
-      const steamRes = await fetch(`/api/steam?steamid=${session.user.steamId}`);
+      const steamRes = await fetch(`/api/steam?steamid=${steamId}`);
       const steamData = await steamRes.json();
       if (steamData.error) {
-        setRoast(steamData.error);
+        setError(steamData.error);
         setLoading(false);
         return;
       }
@@ -30,7 +32,7 @@ export function ResultCard() {
       setLoading(false);
     }
     fetchRoast();
-  }, [session]);
+  }, [steamId]);
 
   // Typewriter effect
   const [displayed, setDisplayed] = useState("");
@@ -46,10 +48,12 @@ export function ResultCard() {
     return () => clearInterval(interval);
   }, [roast]);
 
-  if (!session?.user?.steamId) return null;
+  if (!steamId) return null;
   return (
-    <div className="mt-12 bg-[#171a21] border-2 border-beskar-silver rounded-xl p-8 max-w-xl w-full shadow-xl text-lg font-mono min-h-[120px]">
-      {loading ? "Loading your roast..." : displayed}
+    <div className="mt-12 bg-[#171a21] border-2 border-[#bfc7ce] rounded-xl p-8 max-w-xl w-full shadow-xl text-lg font-mono min-h-[120px]">
+      {loading && <span className="text-[#bfc7ce] animate-pulse">Analyzing your gaming shame...</span>}
+      {error && <span className="text-red-400">{error}</span>}
+      {!loading && !error && displayed}
     </div>
   );
 }

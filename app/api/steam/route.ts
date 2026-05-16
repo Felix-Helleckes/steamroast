@@ -18,7 +18,10 @@ export async function GET(req: NextRequest) {
   }
 
   // Sort games by playtime_forever descending
-  const sorted = data.response.games.sort((a, b) => b.playtime_forever - a.playtime_forever);
+  type SteamGame = { name: string; playtime_forever: number };
+  const sorted: SteamGame[] = (data.response.games as SteamGame[]).sort(
+    (a, b) => b.playtime_forever - a.playtime_forever
+  );
   const topGames = sorted.slice(0, 10).map(game => ({
     name: game.name,
     hours: Math.round(game.playtime_forever / 60),
