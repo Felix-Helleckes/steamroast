@@ -3,20 +3,11 @@ import { useAuth } from "./AuthContext";
 import Image from "next/image";
 
 export function LoginButton() {
-  const { steamId, loading, logout } = useAuth();
+  const { steamId, loading } = useAuth();
 
   if (loading) return null;
 
-  if (steamId) {
-    return (
-      <button
-        className="flex items-center gap-2 px-4 py-2 bg-[#171a21] hover:bg-red-950 text-red-400 rounded-lg font-bold text-sm shadow-lg border border-red-700 transition-colors"
-        onClick={logout}
-      >
-        Sign Out
-      </button>
-    );
-  }
+  if (steamId) return null;
 
   return (
     <a

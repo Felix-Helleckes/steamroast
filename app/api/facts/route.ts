@@ -47,7 +47,28 @@ export async function GET(req: NextRequest) {
   const topGames = sorted.slice(0, 5).map((g) => g.name);
 
   const avgGamePriceEur = Number(process.env.DEFAULT_GAME_PRICE_EUR ?? "20");
+  const totalEstimatedCostEur = Math.round(totalGames * avgGamePriceEur);
   const estimatedUnplayedSpendEur = Math.round(neverPlayedCount * avgGamePriceEur);
+  const completionPct = totalGames > 0 ? Math.round((playedCount / totalGames) * 100) : 0;
+
+  const topOneHours = Math.round((sorted[0]?.playtime_forever ?? 0) / 60);
+  const topOneSharePct = totalHours > 0 ? Math.round((topOneHours / totalHours) * 100) : 0;
+  const hoursPerGame = totalGames > 0 ? Number((totalHours / totalGames).toFixed(1)) : 0;
+
+  const fullTimeJobYears = Number((totalHours / 2080).toFixed(2));
+  const lifeYearsAt8h = Number((totalHours / (8 * 365)).toFixed(2));
+  const weekendDays = Math.round(totalHours / 24);
+
+  // Deterministic roasty index: heavy backlog + low completion + high hours = higher score.
+  const shameScore = Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(
+        neverPlayedCount * 0.9 + (100 - completionPct) * 0.5 + Math.min(totalHours / 40, 35)
+      )
+    )
+  );
 
   return NextResponse.json({
     totalGames,
@@ -55,7 +76,16 @@ export async function GET(req: NextRequest) {
     playedCount,
     totalHours,
     topGames,
+    completionPct,
+    totalEstimatedCostEur,
     estimatedUnplayedSpendEur,
+    topOneHours,
+    topOneSharePct,
+    hoursPerGame,
+    fullTimeJobYears,
+    lifeYearsAt8h,
+    weekendDays,
+    shameScore,
     avgGamePriceEur,
   });
 }
