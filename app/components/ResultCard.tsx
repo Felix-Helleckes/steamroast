@@ -13,23 +13,30 @@ export function ResultCard() {
       if (!steamId) return;
       setLoading(true);
       setError("");
-      // Fetch Steam games
-      const steamRes = await fetch(`/api/steam?steamid=${steamId}`);
-      const steamData = await steamRes.json();
-      if (steamData.error) {
-        setError(steamData.error);
+      try {
+        // Fetch Steam games
+        const steamRes = await fetch(`/api/steam?steamid=${steamId}`);
+        if (!steamRes.ok) throw new Error(`Steam API error: ${steamRes.status}`);
+        const steamData = await steamRes.json();
+        if (steamData.error) {
+          setError(steamData.error);
+          return;
+        }
+        // Fetch AI roast
+        const roastRes = await fetch("/api/roast", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ games: steamData.games.map((g: any) => g.name), totalHours: steamData.totalHours }),
+        });
+        if (!roastRes.ok) throw new Error(`Roast API error: ${roastRes.status}`);
+        const roastData = await roastRes.json();
+        if (!roastData.roast) throw new Error("No roast returned");
+        setRoast(roastData.roast);
+      } catch (e: any) {
+        setError(e?.message ?? "Something went wrong. Try again.");
+      } finally {
         setLoading(false);
-        return;
       }
-      // Fetch AI roast
-      const roastRes = await fetch("/api/roast", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ games: steamData.games.map((g: any) => g.name), totalHours: steamData.totalHours }),
-      });
-      const roastData = await roastRes.json();
-      setRoast(roastData.roast);
-      setLoading(false);
     }
     fetchRoast();
   }, [steamId]);
