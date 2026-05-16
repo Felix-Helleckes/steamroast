@@ -2,75 +2,160 @@
 [![Trading Bot](https://img.shields.io/badge/Trading_Bot-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/felix-helleckes/TradingBot)
 [![Portfolio](https://img.shields.io/badge/Portfolio-felix--helleckes.github.io-0a66c2?style=for-the-badge&logo=github)](https://felix-helleckes.github.io/)
 
-# 🔥 SteamRoast.ai
-"Face your Pile of Shame. This is the way."
+# 🔥 SteamRoast
 
-SteamRoast.ai is a high-performance web application designed to analyze your Steam library and give you a brutal, AI-powered roast of your gaming habits. Built by an ex-Blizzard QA to prove that efficiency and entertainment can go hand in hand.
+> **Face your Pile of Shame. This is the way.**
 
----
+A brutally honest Steam library analyzer that exposes your gaming habits in the most entertaining way possible. See exactly how much money you've wasted, how many games you'll never play, and get roasted by deterministic shame metrics.
 
-## 🚀 The Mission: 100k Subscribers
-This project is part of my journey to 100,000 subscribers on YouTube. I’m building transparent, efficient, and fun tools for the gaming community.
-
-**Goal:** Reach 100k Subs.
-
-**Giveaway:** 5x Star Wars Outlaws (Check the website for details).
+**🌐 Live:** [steamroaster.netlify.app](https://steamroaster.netlify.app/)
 
 ---
 
-## 🛠️ Tech Stack
-- **Framework:** Next.js 16 (App Router)
-- **Language:** TypeScript
-- **Authentication:** NextAuth.js with official Steam OpenID
-- **Styling:** Tailwind CSS (Mando-Inspired Dark Theme)
-- **AI Engine:** OpenAI GPT-4o-mini (Custom Prompt Engineering)
-- **API:** Official Steam Web API
+## 📸 Live Preview
+
+![SteamRoast Screenshot](./screenshot.png)
+
+---
+
+## 🎯 What It Does
+
+SteamRoast pulls your Steam library and generates a brutally honest analysis of your gaming habits:
+
+- **💰 Sunk Cost:** How much money you've wasted on games with 0 hours playtime
+- **⏰ Life Burned:** How many years of your life you've spent gaming
+- **🎮 Shame Score:** A deterministic metric (0-100) that roasts your purchasing discipline
+- **📊 Reality Check:** Your completion rate, total hours, average hours per game, and more
+- **🔥 Hot Take:** A controversial, witty conclusion about your gaming character
+
+All results are **instantly shareable** on X (Twitter) or copy-pasteable to Reddit, Discord, and beyond.
 
 ---
 
 ## ✨ Features
-- **Steam OpenID Login:** Secure authentication—we never see your password.
-- **Library Analysis:** Calculates total playtime, "Pile of Shame" ratio, and account value.
-- **AI Roast:** Get a witty, toxic, or encouraging roast based on your top played games.
-- **Shareable Cards:** Generate high-res "Bounty Cards" for Instagram, TikTok, and Twitter.
+
+- ✅ **Secure Steam Login:** OpenID authentication—we never store your password
+- ✅ **Instant Analysis:** Real-time Steam API data pulls your game library
+- ✅ **Deterministic Roasts:** No AI delays—fast, reliable fact-based results  
+- ✅ **Shareable Outputs:** High-contrast KPI cards + one-click X share button
+- ✅ **Dark Mode Theme:** Mando-inspired sleek UI for late-night shame sessions
+- ✅ **Monetization Ready:** Coffee donation link + content engagement loop built-in
+- ✅ **Netlify Deployed:** Fast, serverless, auto-scaling infrastructure
 
 ---
 
-## 🧑‍💻 Development
+## 🛠️ Tech Stack
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+| Layer | Tech |
+|-------|------|
+| **Frontend** | Next.js 16 (App Router) + React 19 + TypeScript |
+| **Styling** | Tailwind CSS v4 + custom theme |
+| **Auth** | Custom Steam OpenID 2.0 implementation |
+| **Database** | httpOnly JWT cookies (stateless) |
+| **APIs** | Steam Web API + Google Gemini (optional) |
+| **Hosting** | Netlify (serverless functions) |
 
-### Getting Started
+---
 
-First, run the development server:
+## 🚀 Getting Started
 
-```bash
+### Prerequisites
+- Node.js 20+
+- npm/pnpm
+- Steam API Key: [https://steamcommunity.com/dev/apikey](https://steamcommunity.com/dev/apikey)
+
+### Installation
+
+`ash
+# Clone the repo
+git clone https://github.com/yourusername/steamroast.git
+cd steamroast
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.local.example .env.local
+# Edit .env.local with your Steam API Key, NEXTAUTH_URL, NEXTAUTH_SECRET
+
+# Run dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to test locally.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build & Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`ash
+# Production build
+npm run build
 
-### Learn More
+# Test production locally
+npm run start
 
-To learn more about Next.js, take a look at the following resources:
+# Deploy to Netlify (automatic on git push if connected)
+`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📊 Environment Variables
 
-### Deploy on Vercel
+`nv
+# Steam Web API Key
+STEAM_API_KEY=your_steam_api_key
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Your site URL (no trailing slash)
+NEXTAUTH_URL=https://steamroaster.netlify.app
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# JWT signing secret (generate: openssl rand -base64 32)
+NEXTAUTH_SECRET=your_random_secret
+
+# Optional: Average game price for sunk cost estimates (default: 20)
+DEFAULT_GAME_PRICE_EUR=20
+`
+
+---
+
+## 🎬 Content & Growth Strategy
+
+This project is part of the **100k Subscriber Mission** on YouTube.
+
+### Distribution Channels
+- **TikTok/Shorts:** "Shame Score reveals" with your worst backlog stats
+- **Reddit:** Organic posts on r/Steam, r/pcgaming with data-driven insights
+- **X/Twitter:** One-click share with controversial hot takes
+- **Discord:** Community challenges ("Highest Shame Score" leaderboards)
+
+### Viral Hooks
+- "I analyzed my Steam library and found €1920 in unplayed games"
+- "My Shame Score: 100/100 — Your Steam account is a financial crime"
+- "Burned 2.27 years of life in 341 games"
+
+---
+
+## 💡 Ideas for Extensions
+
+- [ ] Leaderboard: global shame scores
+- [ ] Historical tracking: watch your shame score evolve monthly
+- [ ] Team mode: compare shame scores with friends
+- [ ] Wishlist analysis: predict future backlog bloat
+- [ ] Revenue: premium reports, sponsorships, affiliate links
+
+---
+
+## 📝 License
+
+MIT
+
+---
+
+## 🙏 Support
+
+If SteamRoast has made you laugh (or cry), consider:
+- **Buy me a coffee:** [paypal.me/sparky512](https://paypal.me/sparky512)
+- **Subscribe:** [youtube.com/@TheEfficientDev](https://www.youtube.com/@TheEfficientDev)
+- **Share:** Drop your Shame Score on Reddit or X
+
+---
+
+**Built with 🔥 by [The Efficient Dev](https://www.youtube.com/@TheEfficientDev)**
