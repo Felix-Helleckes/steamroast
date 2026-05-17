@@ -12,12 +12,6 @@ A brutally honest Steam library analyzer that exposes your gaming habits in the 
 
 ---
 
-## 📸 Live Preview
-
-![SteamRoast Screenshot](./screenshot.png)
-
----
-
 ## 🎯 What It Does
 
 SteamRoast pulls your Steam library and generates a brutally honest analysis of your gaming habits:
